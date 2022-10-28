@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: server-app-ingress
+  namespace: argocd-poc
+  labels:
+    appname: server-app
+    ctx: {{ .Chart.Name }}
+spec:
+  routes:
+  - kind: Rule
+    match: Path(`/server`)
+    services:
+      - kind: Service
+        name: server-app-service
+        port: 80

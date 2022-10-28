@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-app-deployment
+  namespace: argocd-poc
+  labels:
+    appname: server-app
+    ctx: {{ .Chart.Name }}
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        appname: server-app
+    template:
+      metadata:
+        labels:
+          appname: server-app
+      spec:
+        containers:
+        - name: server-app
+          image: ghcr.io/michalmorus/argocd-poc-sys-api:{{ .Values.server.tag }}
+          ports:
+          - containerPort: 8080
